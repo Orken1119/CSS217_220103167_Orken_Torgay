@@ -1,28 +1,40 @@
 public class BulbAdapter implements SmartDevice {
     private final LegacyBulb bulb;
+    private static final int K = 7;
 
     public BulbAdapter(LegacyBulb bulb) {
         if (bulb == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Bulb cannot be null");
         }
         this.bulb = bulb;
     }
 
     @Override
     public void turnOn() {
+        bulb.setBrightness(255);
     }
 
     @Override
     public void turnOff() {
+        bulb.setBrightness(0);
     }
 
     @Override
     public boolean isOn() {
-        return false;
+        return bulb.hasPower() && bulb.readBrightness() > 0;
     }
 
     @Override
     public int getPowerPercent() {
-        return 0;
+        if (!bulb.hasPower()) {
+            return 0;
+        }
+        int rawBrightness = bulb.readBrightness();
+        if (rawBrightness == 0) {
+            return 0;
+        }
+        int rawPercent = (rawBrightness * 100) / 255;
+        int calibrated = rawPercent + K;
+        return Math.min(100, calibrated);
     }
 }
