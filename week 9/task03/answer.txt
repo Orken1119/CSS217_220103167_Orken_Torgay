@@ -1,0 +1,1 @@
+[B] Delay creating a heavy object until needed

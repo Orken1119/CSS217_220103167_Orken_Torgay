@@ -1,0 +1,1 @@
+Reason: It prevents you from passing in different Device implementations at runtime.

@@ -1,0 +1,1 @@
+[B] Composition over inheritance (has-a)
